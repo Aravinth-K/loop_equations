@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     12171,        342]
-NotebookOptionsPosition[     11819,        328]
-NotebookOutlinePosition[     12215,        344]
-CellTagsIndexPosition[     12172,        341]
+NotebookDataLength[     12956,        358]
+NotebookOptionsPosition[     12604,        344]
+NotebookOutlinePosition[     13000,        360]
+CellTagsIndexPosition[     12957,        357]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -81,7 +81,26 @@ Cell[BoxData[
         RowBox[{"0", ",", "a", ",", 
          SuperscriptBox["a", 
           RowBox[{"-", "1"}]]}], "}"}]}], "}"}]}], ";"}], 
-   "\[IndentingNewLine]", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"fundamentalMatrix", "=", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"1", ",", "0", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "1", ",", "0"}], "}"}], ",", 
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0", ",", "1"}], "}"}]}], "}"}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{"(*", 
+    RowBox[{
+    "Define", " ", "the", " ", "maximum", " ", "level", " ", "to", " ", 
+     "generate", " ", "loop", " ", "equations"}], "*)"}], 
+   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"maxLevel", " ", "=", " ", "7"}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"Transformation", " ", "from", " ", "M", " ", "to", " ", "X"}], 
     "*)"}], "\[IndentingNewLine]", 
@@ -111,6 +130,21 @@ Cell[BoxData[
           SubscriptBox["X", "#"], "&"}], "/@", 
          RowBox[{"Range", "[", 
           RowBox[{"0", ",", "2"}], "]"}]}], "->", "X"}], "]"}]}]}], ";"}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"matrixVars", "=", 
+     RowBox[{"DeleteDuplicates", "[", 
+      RowBox[{"Cases", "[", 
+       RowBox[{"S", ",", 
+        RowBox[{"Subscript", "[", 
+         RowBox[{"M", ",", "_"}], "]"}], ",", "Infinity"}], "]"}], "]"}]}], 
+    ";"}], "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"matrixIndexRange", "=", 
+     RowBox[{"matrixVars", "/.", " ", 
+      RowBox[{
+       RowBox[{"Subscript", "[", 
+        RowBox[{"M", ",", "n_"}], "]"}], ":>", "n"}]}]}], ";"}], 
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{
     RowBox[{"ClearAll", "[", "extract", "]"}], ";"}], "\[IndentingNewLine]", 
@@ -234,9 +268,19 @@ Cell[BoxData[
              RowBox[{"extractIndices", ",", "derivatives"}], "]"}], ",", 
             "1"}], "]"}], "]"}], "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
    "\[IndentingNewLine]", "\[IndentingNewLine]", 
-   RowBox[{"loopSchema", "=", 
-    RowBox[{"getLoopSchema", "[", "S", "]"}]}], "\[IndentingNewLine]", 
-   "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"loopSchema", "=", 
+     RowBox[{"getLoopSchema", "[", "S", "]"}]}], ";"}], "\[IndentingNewLine]",
+    "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"GenerateExpression", "[", "list_", "]"}], ":=", 
+    RowBox[{"Times", "@@", 
+     RowBox[{"(", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Subscript", "[", 
+         RowBox[{"M", ",", "#"}], "]"}], "&"}], "/@", "list"}], ")"}]}]}], 
+   "\[IndentingNewLine]", "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"Function", " ", "to", " ", "extract", " ", "coefficients"}], 
     "*)"}], "\[IndentingNewLine]", 
@@ -246,55 +290,30 @@ Cell[BoxData[
       RowBox[{"S_", ",", "i_", ",", "schema_"}], "]"}], ":=", 
      RowBox[{"If", "[", "\[IndentingNewLine]", 
       RowBox[{
-       RowBox[{
-        RowBox[{"Length", "[", "schema", "]"}], "==", "2"}], ",", 
-       "\[IndentingNewLine]", 
-       RowBox[{"If", "[", "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{
-          RowBox[{"schema", "[", 
-           RowBox[{"[", "1", "]"}], "]"}], "==", 
-          RowBox[{"schema", "[", 
-           RowBox[{"[", "2", "]"}], "]"}]}], ",", "\[IndentingNewLine]", 
-         RowBox[{"Coefficient", "[", 
-          RowBox[{
-           RowBox[{"D", "[", 
-            RowBox[{"S", ",", 
-             SubscriptBox["M", "i"]}], "]"}], ",", 
-           SuperscriptBox[
-            SubscriptBox["M", 
-             RowBox[{"schema", "[", 
-              RowBox[{"[", "1", "]"}], "]"}]], "2"]}], "]"}], ",", 
-         "\[IndentingNewLine]", 
-         RowBox[{
-          FractionBox["1", "2"], 
-          RowBox[{"Coefficient", "[", 
-           RowBox[{
-            RowBox[{"D", "[", 
-             RowBox[{"S", ",", 
-              SubscriptBox["M", "i"]}], "]"}], ",", 
-            RowBox[{
-             SubscriptBox["M", 
-              RowBox[{"schema", "[", 
-               RowBox[{"[", "1", "]"}], "]"}]], 
-             SubscriptBox["M", 
-              RowBox[{"schema", "[", 
-               RowBox[{"[", "2", "]"}], "]"}]]}]}], "]"}]}]}], 
-        "\[IndentingNewLine]", "]"}], ",", "\[IndentingNewLine]", 
+       RowBox[{"schema", "==", 
+        RowBox[{"Reverse", "[", "schema", "]"}]}], ",", "\[IndentingNewLine]", 
        RowBox[{"Coefficient", "[", 
         RowBox[{
          RowBox[{"D", "[", 
           RowBox[{"S", ",", 
            SubscriptBox["M", "i"]}], "]"}], ",", 
-         SubscriptBox["M", 
-          RowBox[{"schema", "[", 
-           RowBox[{"[", "1", "]"}], "]"}]]}], "]"}]}], "\[IndentingNewLine]", 
-      "]"}]}], ";"}], "\[IndentingNewLine]", "\[IndentingNewLine]", 
+         RowBox[{"GenerateExpression", "[", "schema", "]"}]}], "]"}], ",", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        FractionBox["1", "2"], 
+        RowBox[{"Coefficient", "[", 
+         RowBox[{
+          RowBox[{"D", "[", 
+           RowBox[{"S", ",", 
+            SubscriptBox["M", "i"]}], "]"}], ",", 
+          RowBox[{"GenerateExpression", "[", "schema", "]"}]}], "]"}]}]}], 
+      "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+   "\[IndentingNewLine]", 
    RowBox[{"(*", 
     RowBox[{"Extract", " ", "and", " ", "organize", " ", "coefficients"}], 
     "*)"}], "\[IndentingNewLine]", 
    RowBox[{
-    RowBox[{"coefficients", "=", 
+    RowBox[{"actionCoefficients", "=", 
      RowBox[{"Table", "[", "\[IndentingNewLine]", 
       RowBox[{
        RowBox[{"(", 
@@ -302,29 +321,26 @@ Cell[BoxData[
          RowBox[{"extractCoefficients", "[", 
           RowBox[{"S", ",", "i", ",", "schema"}], "]"}], "/.", " ", 
          RowBox[{"Thread", "[", 
-          RowBox[{
-           RowBox[{
-            RowBox[{
-             SubscriptBox["M", "#"], "&"}], "/@", 
-            RowBox[{"Range", "[", 
-             RowBox[{"0", ",", "2"}], "]"}]}], "->", "0"}], "]"}]}], ")"}], 
-       ",", "\[IndentingNewLine]", 
+          RowBox[{"matrixVars", "->", "0"}], "]"}]}], ")"}], ",", 
+       "\[IndentingNewLine]", 
        RowBox[{"{", 
-        RowBox[{"i", ",", "0", ",", "2"}], "}"}], ",", "\[IndentingNewLine]", 
-       
+        RowBox[{"i", ",", 
+         RowBox[{"Min", "[", "matrixIndexRange", "]"}], ",", 
+         RowBox[{"Max", "[", "matrixIndexRange", "]"}]}], "}"}], ",", 
+       "\[IndentingNewLine]", 
        RowBox[{"{", 
         RowBox[{"schema", ",", "loopSchema"}], "}"}]}], "\[IndentingNewLine]",
-       "]"}]}], ";"}], "\n", 
-   RowBox[{
-    RowBox[{
-     RowBox[{"{", 
-      RowBox[{
-      "zeroCoefficients", ",", "oneCoefficients", ",", "twoCoefficients"}], 
-      "}"}], "=", "coefficients"}], ";"}]}]}]], "Input",
+       "]"}]}], ";"}]}]}]], "Input",
  CellChangeTimes->{{3.9028102690604258`*^9, 3.902810299322263*^9}, {
-  3.9028103551367826`*^9, 3.902810364023141*^9}},
- CellLabel->
-  "In[260]:=",ExpressionUUID->"ef367621-2680-4f99-ac53-a5fa90032409"]
+   3.9028103551367826`*^9, 3.902810364023141*^9}, {3.9028107334375143`*^9, 
+   3.902810758101048*^9}, 3.902810795026333*^9, {3.90281087212642*^9, 
+   3.902810881222777*^9}, {3.902811110965939*^9, 3.90281111153329*^9}, {
+   3.9028111625694523`*^9, 3.902811197974872*^9}, {3.902811261104189*^9, 
+   3.902811281994101*^9}, 3.902811319628282*^9, {3.90281143220898*^9, 
+   3.902811449427766*^9}, {3.9028115205520077`*^9, 3.902811537379677*^9}, {
+   3.902811570162551*^9, 
+   3.902811667107677*^9}},ExpressionUUID->"ef367621-2680-4f99-ac53-\
+a5fa90032409"]
 },
 WindowSize->{Full, Full},
 WindowMargins->{{316, Automatic}, {Automatic, 50}},
@@ -343,10 +359,8 @@ CellTagsIndex->{}
 *)
 (*NotebookFileOutline
 Notebook[{
-Cell[558, 20, 11257, 306, 1236, "Input",ExpressionUUID->"ef367621-2680-4f99-ac53-a5fa90032409"]
+Cell[558, 20, 12042, 322, 1302, "Input",ExpressionUUID->"ef367621-2680-4f99-ac53-a5fa90032409"]
 }
 ]
 *)
-
-(* End of internal cache information *)
 
