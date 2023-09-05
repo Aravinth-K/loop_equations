@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     65142,       1637]
-NotebookOptionsPosition[     64438,       1616]
-NotebookOutlinePosition[     64834,       1632]
-CellTagsIndexPosition[     64791,       1629]
+NotebookDataLength[     65164,       1637]
+NotebookOptionsPosition[     64460,       1616]
+NotebookOutlinePosition[     64856,       1632]
+CellTagsIndexPosition[     64813,       1629]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1534,7 +1534,7 @@ Cell[BoxData[{
    3.902911124694064*^9, 3.902911148301423*^9}, {3.9029111902180157`*^9, 
    3.902911214247582*^9}, {3.9029114173661337`*^9, 3.902911434416339*^9}, {
    3.902911480946617*^9, 3.902911489853199*^9}, {3.902911756718821*^9, 
-   3.902911760024469*^9}, 3.90291327111096*^9},
+   3.902911760024469*^9}, 3.90291327111096*^9, 3.902915438544676*^9},
  CellLabel->"In[1]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
 
 Cell[BoxData["\<\"LoopEquations`Private`\"\>"], "Output",
@@ -1634,10 +1634,10 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 150, 3, 98, "Title",ExpressionUUID->"cfe02fac-2679-4ae1-928a-baf699bfc0bd"],
 Cell[CellGroupData[{
-Cell[755, 29, 61110, 1508, 5840, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
-Cell[61868, 1539, 345, 5, 34, "Output",ExpressionUUID->"ecde33c4-2c62-40d4-8fc3-a9470a50ac80"]
+Cell[755, 29, 61132, 1508, 5840, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+Cell[61890, 1539, 345, 5, 34, "Output",ExpressionUUID->"ecde33c4-2c62-40d4-8fc3-a9470a50ac80"]
 }, Open  ]],
-Cell[62228, 1547, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"]
+Cell[62250, 1547, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"]
 }, Open  ]]
 }
 ]
