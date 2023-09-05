@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     65164,       1637]
-NotebookOptionsPosition[     64460,       1616]
-NotebookOutlinePosition[     64856,       1632]
-CellTagsIndexPosition[     64813,       1629]
+NotebookDataLength[     67941,       1717]
+NotebookOptionsPosition[     67139,       1695]
+NotebookOutlinePosition[     67535,       1711]
+CellTagsIndexPosition[     67492,       1708]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -1313,64 +1313,85 @@ Cell[BoxData[{
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{
-    RowBox[{"correlatorJacobianContribution", "[", 
-     RowBox[{"wordList_", ",", "matrixNumber_"}], "]"}], ":=", 
-    RowBox[{"Module", "[", 
-     RowBox[{
-      RowBox[{"{", 
-       RowBox[{
-       "splitWordList", ",", "leftJacobianIndex", ",", "rightJacobianIndex"}],
-        "}"}], ",", "\[IndentingNewLine]", 
+   RowBox[{"correlatorJacobianContribution", "[", 
+    RowBox[{"wordList_", ",", "matrixNumber_"}], "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
       RowBox[{
-       RowBox[{"splitWordList", "=", 
-        RowBox[{"splitWordListOnLetter", "[", 
-         RowBox[{"wordList", ",", " ", "matrixNumber"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
+      "splitWordList", ",", "leftJacobianIndex", ",", "rightJacobianIndex"}], 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"splitWordList", "=", 
+       RowBox[{"splitWordListOnLetter", "[", 
+        RowBox[{"wordList", ",", " ", "matrixNumber"}], "]"}]}], ";", 
+      "\[IndentingNewLine]", 
+      RowBox[{"If", "[", 
        RowBox[{
-        RowBox[{"leftJacobianIndex", "[", "splitNumber_", "]"}], ":=", 
-        RowBox[{"correlatorWordLookup", "[", 
-         RowBox[{"splitWordList", "[", 
-          RowBox[{"[", 
-           RowBox[{"splitNumber", ",", "1"}], "]"}], "]"}], "]"}]}], ";", 
-       "\[IndentingNewLine]", 
-       RowBox[{
-        RowBox[{"rightJacobianIndex", "[", "splitNumber_", "]"}], ":=", 
-        RowBox[{"correlatorWordLookup", "[", 
-         RowBox[{"Flatten", "[", 
-          RowBox[{
-           RowBox[{"Append", "[", 
-            RowBox[{
-             RowBox[{"splitWordResolventWordLookup", "[", 
-              RowBox[{"splitWordList", "[", 
-               RowBox[{"[", 
-                RowBox[{"splitNumber", ",", "2"}], "]"}], "]"}], "]"}], "[", 
-             RowBox[{"[", "2", "]"}], "]"}], "]"}], ",", 
-           RowBox[{"Table", "[", 
-            RowBox[{"0", ",", 
-             RowBox[{"{", 
-              RowBox[{"j", ",", "1", ",", 
-               RowBox[{"Length", "[", 
+        RowBox[{"splitWordList", "!=", 
+         RowBox[{"{", "}"}]}], ",", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"leftJacobianIndices", "=", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"correlatorWordLookup", "[", 
+             RowBox[{"splitWordList", "[", 
+              RowBox[{"[", 
+               RowBox[{"splitNumber", ",", "1"}], "]"}], "]"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"splitNumber", ",", "1", ",", 
+              RowBox[{"Length", "[", "splitWordList", "]"}]}], "}"}]}], 
+           "]"}]}], ";", "\[IndentingNewLine]", 
+         RowBox[{"rightJacobianIndices", "=", 
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"correlatorWordLookup", "[", 
+             RowBox[{"Flatten", "[", 
+              RowBox[{"Append", "[", 
+               RowBox[{
                 RowBox[{
                  RowBox[{"splitWordResolventWordLookup", "[", 
                   RowBox[{"splitWordList", "[", 
                    RowBox[{"[", 
                     RowBox[{"splitNumber", ",", "2"}], "]"}], "]"}], "]"}], 
                  "[", 
-                 RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}], 
-          "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
-       RowBox[{"Sum", "[", 
-        RowBox[{
+                 RowBox[{"[", "2", "]"}], "]"}], ",", 
+                RowBox[{"Table", "[", 
+                 RowBox[{"0", ",", 
+                  RowBox[{"{", 
+                   RowBox[{"j", ",", "1", ",", 
+                    RowBox[{"Length", "[", 
+                    RowBox[{
+                    RowBox[{"splitWordResolventWordLookup", "[", 
+                    RowBox[{"splitWordList", "[", 
+                    RowBox[{"[", 
+                    RowBox[{"splitNumber", ",", "2"}], "]"}], "]"}], "]"}], 
+                    "[", 
+                    RowBox[{"[", "1", "]"}], "]"}], "]"}]}], "}"}]}], "]"}]}],
+                "]"}], "]"}], "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"splitNumber", ",", "1", ",", 
+              RowBox[{"Length", "[", "splitWordList", "]"}]}], "}"}]}], 
+           "]"}]}], ";", "\[IndentingNewLine]", 
          RowBox[{
-          SubscriptBox["p", 
-           RowBox[{"leftJacobianIndex", "[", "n", "]"}]], "*", 
-          SubscriptBox["p", 
-           RowBox[{"rightJacobianIndex", "[", "n", "]"}]]}], ",", 
-         RowBox[{"{", 
-          RowBox[{"n", ",", "1", ",", 
-           RowBox[{"Length", "[", "splitWordList", "]"}]}], "}"}]}], 
-        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+          RowBox[{"(", 
+           RowBox[{"List", "@@", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Subscript", "[", 
+                RowBox[{"p", ",", "#"}], "]"}], "&"}], "/@", 
+              "leftJacobianIndices"}], ")"}]}], ")"}], ".", 
+          RowBox[{"(", 
+           RowBox[{"List", "@@", 
+            RowBox[{"(", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Subscript", "[", 
+                RowBox[{"p", ",", "#"}], "]"}], "&"}], "/@", 
+              "rightJacobianIndices"}], ")"}]}], ")"}]}]}], ",", 
+        "\[IndentingNewLine]", "0"}], "\[IndentingNewLine]", "]"}]}]}], 
+    "]"}]}], ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -1534,15 +1555,19 @@ Cell[BoxData[{
    3.902911124694064*^9, 3.902911148301423*^9}, {3.9029111902180157`*^9, 
    3.902911214247582*^9}, {3.9029114173661337`*^9, 3.902911434416339*^9}, {
    3.902911480946617*^9, 3.902911489853199*^9}, {3.902911756718821*^9, 
-   3.902911760024469*^9}, 3.90291327111096*^9, 3.902915438544676*^9},
- CellLabel->"In[1]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+   3.902911760024469*^9}, 3.90291327111096*^9, 3.902915438544676*^9, 
+   3.9029166371734037`*^9, {3.9029168633566008`*^9, 3.902916882396654*^9}},
+ CellLabel->
+  "In[104]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
 
 Cell[BoxData["\<\"LoopEquations`Private`\"\>"], "Output",
  CellChangeTimes->{
   3.902909948298805*^9, 3.902910010845389*^9, 3.902911034398162*^9, {
    3.902911214734536*^9, 3.902911224042193*^9}, 3.902911447418952*^9, 
-   3.902911509400837*^9, 3.902913289766271*^9},
- CellLabel->"Out[40]=",ExpressionUUID->"ecde33c4-2c62-40d4-8fc3-a9470a50ac80"]
+   3.902911509400837*^9, 3.902913289766271*^9, 3.902916648328693*^9, {
+   3.902916866112255*^9, 3.902916882995411*^9}},
+ CellLabel->
+  "Out[143]=",ExpressionUUID->"66bdc24b-b2d7-4b69-9883-50fae3524cb2"]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1611,7 +1636,61 @@ Cell[BoxData[{
  CellChangeTimes->{{3.902909956855595*^9, 3.902909958039184*^9}, {
   3.902910008716997*^9, 3.902910008779916*^9}, {3.902911060265925*^9, 
   3.902911081660348*^9}, {3.902913487039106*^9, 3.9029134871218452`*^9}},
- CellLabel->"In[48]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"]
+ CellLabel->"In[42]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"Potts2Action", "=", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      FractionBox[
+       RowBox[{"(", 
+        RowBox[{
+         SubscriptBox["t", "2"], "-", "1"}], ")"}], "2"], 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox[
+         SubscriptBox["X", "0"], "2"], "+", 
+        SuperscriptBox[
+         SubscriptBox["X", "1"], "2"]}], ")"}]}], "-", 
+     RowBox[{
+      SubscriptBox["X", "0"], 
+      SubscriptBox["X", "1"]}], "+", 
+     RowBox[{
+      FractionBox[
+       SubscriptBox["t", "3"], "3"], 
+      RowBox[{"(", 
+       RowBox[{
+        SuperscriptBox[
+         SubscriptBox["X", "0"], "3"], "+", 
+        SuperscriptBox[
+         SubscriptBox["X", "1"], "3"]}], ")"}]}]}], ")"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"matrixDOF", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     SubscriptBox["X", "0"], ",", 
+     SubscriptBox["X", "1"]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"orientationMatrix", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"1", ",", "0"}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{"0", ",", "1"}], "}"}]}], "}"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{"maxLevel", "=", "5"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{"InitializeLoopEquationsPackage", "[", 
+  RowBox[{
+  "Potts2Action", ",", "matrixDOF", ",", "orientationMatrix", ",", "maxLevel",
+    ",", "\[Omega]", ",", "p", ",", "z"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.902916792274436*^9, 3.9029168150266323`*^9}, {
+  3.902916872959449*^9, 3.90291687303892*^9}},
+ CellLabel->
+  "In[145]:=",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
 }, Open  ]]
 },
 WindowSize->{Full, Full},
@@ -1634,10 +1713,11 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 150, 3, 98, "Title",ExpressionUUID->"cfe02fac-2679-4ae1-928a-baf699bfc0bd"],
 Cell[CellGroupData[{
-Cell[755, 29, 61132, 1508, 5840, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
-Cell[61890, 1539, 345, 5, 34, "Output",ExpressionUUID->"ecde33c4-2c62-40d4-8fc3-a9470a50ac80"]
+Cell[755, 29, 62065, 1531, 5855, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+Cell[62823, 1562, 421, 7, 34, "Output",ExpressionUUID->"66bdc24b-b2d7-4b69-9883-50fae3524cb2"]
 }, Open  ]],
-Cell[62250, 1547, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"]
+Cell[63259, 1572, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+Cell[65456, 1640, 1667, 52, 133, "Input",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
 }, Open  ]]
 }
 ]
