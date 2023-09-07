@@ -1,10 +1,6 @@
 (* ::Package:: *)
 
-ClearAll["Global`*"];
 BeginPackage["LoopEquationsGenerator`"];
-
-ClearAll["Global`*"];
-BeginPackage["LoopEquations`"];
 
 GenerateAllResolventLoopEquations::usage="Generate all resolvent loop equations.";
 GenerateIndividualResolventLoopEquation::usage="Generate an individual resolvent loop equation.";
@@ -13,7 +9,9 @@ GenerateIndividualCorrelatorLoopEquation::usage="Generate an individual correlat
 InitializeLoopEquationsPackage::usage="Initialize the package with action, fundamentalMatrix, and maxLevel.";
 GetResolventVariables::usage="Return list of all resolvent variables.";
 GetCorrelatorVariables::usage="Return list of all correlator variables.";
-GetResolventLoopEquationLevel::usage="Get level of an input loop equation.";
+GetResolventLoopEquationLevel::usage="Get level of an input resolvent loop equation.";
+GetCorrelatorLoopEquationLevel::usage="Get level of an input correlator loop equation.";
+GetVariationList::usage="Get a list of all possible words corresponding to variations.";
 
 Begin["`Private`"];
 
@@ -237,12 +235,14 @@ rightJacobianIndices=Table[correlatorWordLookup[Flatten[Append[splitWordResolven
 ]];
 createCorrelatorLoopEquation[wordList_,matrixNumber_]:=correlatorActionContribution[wordList,matrixNumber]-correlatorJacobianContribution[wordList,matrixNumber];
 
-GenerateAllResolventLoopEquations[level_]:=Module[{variationList},
-If[
+getVariationList[level_]:=If[
 level==0,
-variationList={{},{}},
-variationList=Join[{{{},{}}},Flatten[Table[variations[i],{i,1,level}],1]]
+{{},{}},
+Join[{{{},{}}},Flatten[Table[variations[i],{i,1,level}],1]]
 ];
+
+GenerateAllResolventLoopEquations[level_]:=Module[{variationList},
+variationList=getVariationList[level];
 loopEquations=Flatten@Table[createResolventLoopEquation[variation,matrixNumber],{variation,variationList},{matrixNumber,matrixIndexRange}]
 ];
 
@@ -251,11 +251,7 @@ createResolventLoopEquation[wordList,matrixNumber]
 ];
 
 GenerateAllCorrelatorLoopEquations[level_]:=Module[{variationList},
-If[
-level==0,
-variationList={{},{}},
-variationList=Join[{{{},{}}},Flatten[Table[variations[i],{i,1,level}],1]]
-];
+variationList=getVariationList[level];
 Flatten@Table[createCorrelatorLoopEquation[variation,matrixNumber],{variation,variationList},{matrixNumber,matrixIndexRange}]
 ];
 
@@ -274,6 +270,10 @@ correlatorWordsList=Flatten[Table[correlatorWords[i],{i,1,level}],1];
 ];
 
 GetResolventLoopEquationLevel[loopEquation_]:=Max[Map[Length,Map[extractIndices[#,\[Omega]]&,List@@Expand[loopEquation]]]];
+
+GetCorrelatorLoopEquationLevel[loopEquation_]:=Max[Map[Length,Map[extractIndices[#,p]&,List@@Expand[loopEquation]]]];
+
+GetVariationList[level_]:=getVariationList[level];
 
 End[]
 

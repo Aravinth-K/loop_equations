@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     72404,       1833]
-NotebookOptionsPosition[     71602,       1811]
-NotebookOutlinePosition[     71998,       1827]
-CellTagsIndexPosition[     71955,       1824]
+NotebookDataLength[     72933,       1852]
+NotebookOptionsPosition[     72131,       1830]
+NotebookOutlinePosition[     72527,       1846]
+CellTagsIndexPosition[     72484,       1843]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -33,8 +33,8 @@ Cell[BoxData[{
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
-   RowBox[{"BeginPackage", "[", "\"\<LoopEquations`\>\"", "]"}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+   RowBox[{"BeginPackage", "[", "\"\<LoopEquationsGenerator`\>\"", "]"}], 
+   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"GenerateAllResolventLoopEquations", "::", "usage"}], "=", 
@@ -69,10 +69,20 @@ maxLevel.\>\""}], ";"}], "\[IndentingNewLine]",
   ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
+   RowBox[{"GetResolventLoopEquationLevel", "::", "usage"}], "=", 
+   "\"\<Get level of an input resolvent loop equation.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GetCorrelatorLoopEquationLevel", "::", "usage"}], "=", 
+   "\"\<Get level of an input correlator loop equation.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
    RowBox[{
-    RowBox[{"GetResolventLoopEquationLevel", "::", "usage"}], "=", 
-    "\"\<Get level of an input loop equation.\>\""}], ";"}], 
-  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{"GetVariationList", "::", "usage"}], "=", 
+    "\"\<Get a list of all possible words corresponding to variations.\>\""}],
+    ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}], 
@@ -1452,35 +1462,40 @@ maxLevel.\>\""}], ";"}], "\[IndentingNewLine]",
  RowBox[{
   RowBox[{
    RowBox[{
+    RowBox[{"getVariationList", "[", "level_", "]"}], ":=", 
+    RowBox[{"If", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"level", "==", "0"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "}"}], ",", 
+        RowBox[{"{", "}"}]}], "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Join", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"{", "}"}], ",", 
+           RowBox[{"{", "}"}]}], "}"}], "}"}], ",", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"variations", "[", "i", "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", "level"}], "}"}]}], "]"}], ",", 
+          "1"}], "]"}]}], "]"}]}], "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
     RowBox[{"GenerateAllResolventLoopEquations", "[", "level_", "]"}], ":=", 
     RowBox[{"Module", "[", 
      RowBox[{
       RowBox[{"{", "variationList", "}"}], ",", "\[IndentingNewLine]", 
       RowBox[{
-       RowBox[{"If", "[", "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"level", "==", "0"}], ",", "\[IndentingNewLine]", 
-         RowBox[{"variationList", "=", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"{", "}"}], ",", 
-            RowBox[{"{", "}"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
-         RowBox[{"variationList", "=", 
-          RowBox[{"Join", "[", 
-           RowBox[{
-            RowBox[{"{", 
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"{", "}"}], ",", 
-               RowBox[{"{", "}"}]}], "}"}], "}"}], ",", 
-            RowBox[{"Flatten", "[", 
-             RowBox[{
-              RowBox[{"Table", "[", 
-               RowBox[{
-                RowBox[{"variations", "[", "i", "]"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"i", ",", "1", ",", "level"}], "}"}]}], "]"}], ",", 
-              "1"}], "]"}]}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+       RowBox[{"variationList", "=", 
+        RowBox[{"getVariationList", "[", "level", "]"}]}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"loopEquations", "=", 
         RowBox[{"Flatten", "@", 
@@ -1515,30 +1530,8 @@ maxLevel.\>\""}], ";"}], "\[IndentingNewLine]",
      RowBox[{
       RowBox[{"{", "variationList", "}"}], ",", "\[IndentingNewLine]", 
       RowBox[{
-       RowBox[{"If", "[", "\[IndentingNewLine]", 
-        RowBox[{
-         RowBox[{"level", "==", "0"}], ",", "\[IndentingNewLine]", 
-         RowBox[{"variationList", "=", 
-          RowBox[{"{", 
-           RowBox[{
-            RowBox[{"{", "}"}], ",", 
-            RowBox[{"{", "}"}]}], "}"}]}], ",", "\[IndentingNewLine]", 
-         RowBox[{"variationList", "=", 
-          RowBox[{"Join", "[", 
-           RowBox[{
-            RowBox[{"{", 
-             RowBox[{"{", 
-              RowBox[{
-               RowBox[{"{", "}"}], ",", 
-               RowBox[{"{", "}"}]}], "}"}], "}"}], ",", 
-            RowBox[{"Flatten", "[", 
-             RowBox[{
-              RowBox[{"Table", "[", 
-               RowBox[{
-                RowBox[{"variations", "[", "i", "]"}], ",", 
-                RowBox[{"{", 
-                 RowBox[{"i", ",", "1", ",", "level"}], "}"}]}], "]"}], ",", 
-              "1"}], "]"}]}], "]"}]}]}], "\[IndentingNewLine]", "]"}], ";", 
+       RowBox[{"variationList", "=", 
+        RowBox[{"getVariationList", "[", "level", "]"}]}], ";", 
        "\[IndentingNewLine]", 
        RowBox[{"Flatten", "@", 
         RowBox[{"Table", "[", 
@@ -1631,6 +1624,27 @@ maxLevel.\>\""}], ";"}], "\[IndentingNewLine]",
           RowBox[{"Expand", "[", "loopEquation", "]"}]}]}], "]"}]}], "]"}], 
      "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GetCorrelatorLoopEquationLevel", "[", "loopEquation_", "]"}], ":=", 
+    RowBox[{"Max", "[", 
+     RowBox[{"Map", "[", 
+      RowBox[{"Length", ",", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"extractIndices", "[", 
+           RowBox[{"#", ",", "p"}], "]"}], "&"}], ",", 
+         RowBox[{"List", "@@", 
+          RowBox[{"Expand", "[", "loopEquation", "]"}]}]}], "]"}]}], "]"}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GetVariationList", "[", "level_", "]"}], ":=", 
+    RowBox[{"getVariationList", "[", "level", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
   RowBox[{"End", "[", "]"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"EndPackage", "[", "]"}]}], "Input",
  CellChangeTimes->{{3.902837719733182*^9, 3.902837755976961*^9}, {
@@ -1672,8 +1686,11 @@ maxLevel.\>\""}], ";"}], "\[IndentingNewLine]",
    3.9029166371734037`*^9, {3.9029168633566008`*^9, 3.902916882396654*^9}, {
    3.90291943407193*^9, 3.902919684248106*^9}, {3.902919740197805*^9, 
    3.90291974875282*^9}, {3.902920124387248*^9, 3.902920126301256*^9}, {
-   3.903035161456953*^9, 3.903035208717559*^9}},
- CellLabel->"In[1]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+   3.903035161456953*^9, 3.903035208717559*^9}, {3.9030356373377123`*^9, 
+   3.903035738289043*^9}, {3.9030357814756517`*^9, 3.903035810607087*^9}, {
+   3.903035846673538*^9, 
+   3.9030358524339743`*^9}},ExpressionUUID->"85d114b0-adb3-4fad-af5e-\
+9dc52adefad3"],
 
 Cell[BoxData["\<\"LoopEquations`Private`\"\>"], "Output",
  CellChangeTimes->{
@@ -1682,8 +1699,9 @@ Cell[BoxData["\<\"LoopEquations`Private`\"\>"], "Output",
    3.902911509400837*^9, 3.902913289766271*^9, 3.902916648328693*^9, {
    3.902916866112255*^9, 3.902916882995411*^9}, {3.902919728500901*^9, 
    3.9029197569788227`*^9}, {3.902920720883565*^9, 3.902920731674521*^9}, 
-   3.903035223999909*^9},
- CellLabel->"Out[46]=",ExpressionUUID->"f0d761b6-70b6-460d-9f5a-d5289219d9b2"]
+   3.903035223999909*^9, 3.903035742543153*^9},
+ CellLabel->
+  "Out[103]=",ExpressionUUID->"34b97643-34eb-4390-8d9e-a0cf90a7814b"]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1752,7 +1770,8 @@ Cell[BoxData[{
  CellChangeTimes->{{3.902909956855595*^9, 3.902909958039184*^9}, {
   3.902910008716997*^9, 3.902910008779916*^9}, {3.902911060265925*^9, 
   3.902911081660348*^9}, {3.902913487039106*^9, 3.9029134871218452`*^9}},
- CellLabel->"In[48]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+ CellLabel->
+  "In[105]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
 
 Cell[BoxData[{
  RowBox[{
@@ -1829,11 +1848,11 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 150, 3, 98, "Title",ExpressionUUID->"cfe02fac-2679-4ae1-928a-baf699bfc0bd"],
 Cell[CellGroupData[{
-Cell[755, 29, 66408, 1646, 6170, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
-Cell[67166, 1677, 541, 8, 34, "Output",ExpressionUUID->"f0d761b6-70b6-460d-9f5a-d5289219d9b2"]
+Cell[755, 29, 66907, 1663, 6254, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+Cell[67665, 1694, 567, 9, 34, "Output",ExpressionUUID->"34b97643-34eb-4390-8d9e-a0cf90a7814b"]
 }, Open  ]],
-Cell[67722, 1688, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
-Cell[69919, 1756, 1667, 52, 133, "Input",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
+Cell[68247, 1706, 2198, 67, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+Cell[70448, 1775, 1667, 52, 133, "Input",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
 }, Open  ]]
 }
 ]
