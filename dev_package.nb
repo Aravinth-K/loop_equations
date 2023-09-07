@@ -10,10 +10,10 @@
 NotebookFileLineBreakTest
 NotebookFileLineBreakTest
 NotebookDataPosition[       158,          7]
-NotebookDataLength[     67941,       1717]
-NotebookOptionsPosition[     67139,       1695]
-NotebookOutlinePosition[     67535,       1711]
-CellTagsIndexPosition[     67492,       1708]
+NotebookDataLength[     72404,       1833]
+NotebookOptionsPosition[     71602,       1811]
+NotebookOutlinePosition[     71998,       1827]
+CellTagsIndexPosition[     71955,       1824]
 WindowFrame->Normal*)
 
 (* Beginning of Notebook Content *)
@@ -50,14 +50,29 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{"GenerateIndividualCorrelatorLoopEquation", "::", "usage"}], "=", 
-   "\"\<Generate an individual correlator loop equation.\>\""}], ";"}], "\n", 
-
+   "\"\<Generate an individual correlator loop equation.\>\""}], 
+  ";"}], "\n", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"InitializeLoopEquationsPackage", "::", "usage"}], "=", 
+   "\"\<Initialize the package with action, fundamentalMatrix, and \
+maxLevel.\>\""}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GetResolventVariables", "::", "usage"}], "=", 
+   "\"\<Return list of all resolvent variables.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"GetCorrelatorVariables", "::", "usage"}], "=", 
+   "\"\<Return list of all correlator variables.\>\""}], 
+  ";"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
-    RowBox[{"InitializeLoopEquationsPackage", "::", "usage"}], "=", 
-    "\"\<Initialize the package with action, fundamentalMatrix, and maxLevel.\
-\>\""}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+    RowBox[{"GetResolventLoopEquationLevel", "::", "usage"}], "=", 
+    "\"\<Get level of an input loop equation.\>\""}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{"Begin", "[", "\"\<`Private`\>\"", "]"}], ";"}], 
@@ -65,13 +80,42 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{
-    RowBox[{"extractIndices", "[", "term_", "]"}], ":=", 
+    RowBox[{"extractIndices", "[", 
+     RowBox[{"term_", ",", "symbol_"}], "]"}], ":=", 
     RowBox[{"Module", "[", 
      RowBox[{
       RowBox[{"{", 
        RowBox[{"factors", ",", "mFactors", ",", "subs"}], "}"}], ",", 
       "\[IndentingNewLine]", 
       RowBox[{
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"AtomQ", "[", "term", "]"}], ",", 
+         RowBox[{"Return", "[", 
+          RowBox[{"{", "}"}], "]"}]}], "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"term", "===", "symbol"}], "||", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Head", "[", "term", "]"}], "===", "Subscript"}], "&&", 
+           RowBox[{
+            RowBox[{"term", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "===", "symbol"}]}]}], ",", 
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Head", "[", "term", "]"}], "===", "Subscript"}], ",", 
+           RowBox[{"Return", "[", 
+            RowBox[{"Sort", "[", 
+             RowBox[{"Sequence", "@@", 
+              RowBox[{"term", "[", 
+               RowBox[{"[", 
+                RowBox[{"2", ";;"}], "]"}], "]"}]}], "]"}], "]"}], ",", 
+           RowBox[{"Return", "[", 
+            RowBox[{"{", "}"}], "]"}]}], "]"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", 
        RowBox[{"factors", "=", 
         RowBox[{"List", "@@", "term"}]}], ";", "\[IndentingNewLine]", 
        RowBox[{"mFactors", "=", 
@@ -82,8 +126,8 @@ Cell[BoxData[{
             RowBox[{"FreeQ", "[", 
              RowBox[{"#", ",", 
               RowBox[{"Subscript", "[", 
-               RowBox[{"M", ",", "_"}], "]"}]}], "]"}]}], "&"}]}], "]"}]}], 
-       ";", "\[IndentingNewLine]", 
+               RowBox[{"symbol", ",", "_"}], "]"}]}], "]"}]}], "&"}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
        RowBox[{"subs", "=", 
         RowBox[{"Flatten", "[", 
          RowBox[{"Replace", "[", 
@@ -104,8 +148,7 @@ Cell[BoxData[{
                 RowBox[{"{", "pow", "}"}]}], "]"}]}]}], "}"}], ",", 
            RowBox[{"{", "1", "}"}]}], "]"}], "]"}]}], ";", 
        "\[IndentingNewLine]", 
-       RowBox[{"Sort", "[", "subs", "]"}]}]}], "\[IndentingNewLine]", "]"}]}],
-    ";"}], "\[IndentingNewLine]"}], "\n", 
+       RowBox[{"Sort", "[", "subs", "]"}]}]}], "]"}]}], ";"}], "\n"}], "\n", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -129,7 +172,7 @@ Cell[BoxData[{
  RowBox[{
   RowBox[{
    RowBox[{
-    RowBox[{"extractAllIndices", "[", "expr_", "]"}], ":=", 
+    RowBox[{"extractAllActionIndices", "[", "expr_", "]"}], ":=", 
     RowBox[{"Module", "[", 
      RowBox[{
       RowBox[{"{", "rawIndices", "}"}], ",", "\[IndentingNewLine]", 
@@ -137,7 +180,10 @@ Cell[BoxData[{
        RowBox[{"rawIndices", "=", 
         RowBox[{"DeleteDuplicates", "[", 
          RowBox[{"Map", "[", 
-          RowBox[{"extractIndices", ",", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"extractIndices", "[", 
+             RowBox[{"#", ",", "M"}], "]"}], "&"}], ",", 
            RowBox[{"List", "@@", 
             RowBox[{"Expand", "[", "expr", "]"}]}]}], "]"}], "]"}]}], ";", 
        "\[IndentingNewLine]", 
@@ -175,9 +221,9 @@ Cell[BoxData[{
           RowBox[{"Flatten", "[", 
            RowBox[{
             RowBox[{"Map", "[", 
-             RowBox[{"extractAllIndices", ",", "derivatives"}], "]"}], ",", 
-            "1"}], "]"}], "]"}], "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], 
-   ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+             RowBox[{"extractAllActionIndices", ",", "derivatives"}], "]"}], 
+            ",", "1"}], "]"}], "]"}], "]"}]}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
    RowBox[{
@@ -1097,7 +1143,7 @@ Cell[BoxData[{
             RowBox[{"Length", "[", "loopSchema", "]"}]}], "}"}]}], "]"}]}], 
        ";", "\[IndentingNewLine]", 
        RowBox[{"coefficients", ".", "resolventExpressions"}]}]}], 
-     "\[IndentingNewLine]", "]"}]}], ";"}], "\[IndentingNewLine]", 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
   RowBox[{
@@ -1518,6 +1564,73 @@ Cell[BoxData[{
      "\[IndentingNewLine]", "]"}]}], ";"}], 
   "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GetResolventVariables", "[", "level_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "resolventWordsList", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"resolventWordsList", "=", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"resolventWords", "[", "i", "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", "level"}], "}"}]}], "]"}], ",", 
+          "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(", 
+        RowBox[{"List", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Subscript", "[", 
+             RowBox[{"\[Omega]", ",", "#"}], "]"}], "&"}], "/@", 
+           "resolventWordsList"}], ")"}]}], ")"}]}]}], "\[IndentingNewLine]", 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GetCorrelatorVariables", "[", "level_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "correlatorWordsList", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"correlatorWordsList", "=", 
+        RowBox[{"Flatten", "[", 
+         RowBox[{
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"correlatorWords", "[", "i", "]"}], ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", "level"}], "}"}]}], "]"}], ",", 
+          "1"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"(", 
+        RowBox[{"List", "@@", 
+         RowBox[{"(", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Subscript", "[", 
+             RowBox[{"p", ",", "#"}], "]"}], "&"}], "/@", 
+           "correlatorWordsList"}], ")"}]}], ")"}]}]}], "\[IndentingNewLine]",
+      "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"GetResolventLoopEquationLevel", "[", "loopEquation_", "]"}], ":=", 
+    RowBox[{"Max", "[", 
+     RowBox[{"Map", "[", 
+      RowBox[{"Length", ",", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"extractIndices", "[", 
+           RowBox[{"#", ",", "\[Omega]"}], "]"}], "&"}], ",", 
+         RowBox[{"List", "@@", 
+          RowBox[{"Expand", "[", "loopEquation", "]"}]}]}], "]"}]}], "]"}], 
+     "]"}]}], ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
   RowBox[{"End", "[", "]"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
  RowBox[{"EndPackage", "[", "]"}]}], "Input",
  CellChangeTimes->{{3.902837719733182*^9, 3.902837755976961*^9}, {
@@ -1556,18 +1669,21 @@ Cell[BoxData[{
    3.902911214247582*^9}, {3.9029114173661337`*^9, 3.902911434416339*^9}, {
    3.902911480946617*^9, 3.902911489853199*^9}, {3.902911756718821*^9, 
    3.902911760024469*^9}, 3.90291327111096*^9, 3.902915438544676*^9, 
-   3.9029166371734037`*^9, {3.9029168633566008`*^9, 3.902916882396654*^9}},
- CellLabel->
-  "In[104]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+   3.9029166371734037`*^9, {3.9029168633566008`*^9, 3.902916882396654*^9}, {
+   3.90291943407193*^9, 3.902919684248106*^9}, {3.902919740197805*^9, 
+   3.90291974875282*^9}, {3.902920124387248*^9, 3.902920126301256*^9}, {
+   3.903035161456953*^9, 3.903035208717559*^9}},
+ CellLabel->"In[1]:=",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
 
 Cell[BoxData["\<\"LoopEquations`Private`\"\>"], "Output",
  CellChangeTimes->{
   3.902909948298805*^9, 3.902910010845389*^9, 3.902911034398162*^9, {
    3.902911214734536*^9, 3.902911224042193*^9}, 3.902911447418952*^9, 
    3.902911509400837*^9, 3.902913289766271*^9, 3.902916648328693*^9, {
-   3.902916866112255*^9, 3.902916882995411*^9}},
- CellLabel->
-  "Out[143]=",ExpressionUUID->"66bdc24b-b2d7-4b69-9883-50fae3524cb2"]
+   3.902916866112255*^9, 3.902916882995411*^9}, {3.902919728500901*^9, 
+   3.9029197569788227`*^9}, {3.902920720883565*^9, 3.902920731674521*^9}, 
+   3.903035223999909*^9},
+ CellLabel->"Out[46]=",ExpressionUUID->"f0d761b6-70b6-460d-9f5a-d5289219d9b2"]
 }, Open  ]],
 
 Cell[BoxData[{
@@ -1636,7 +1752,7 @@ Cell[BoxData[{
  CellChangeTimes->{{3.902909956855595*^9, 3.902909958039184*^9}, {
   3.902910008716997*^9, 3.902910008779916*^9}, {3.902911060265925*^9, 
   3.902911081660348*^9}, {3.902913487039106*^9, 3.9029134871218452`*^9}},
- CellLabel->"In[42]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+ CellLabel->"In[48]:=",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
 
 Cell[BoxData[{
  RowBox[{
@@ -1713,11 +1829,11 @@ Notebook[{
 Cell[CellGroupData[{
 Cell[580, 22, 150, 3, 98, "Title",ExpressionUUID->"cfe02fac-2679-4ae1-928a-baf699bfc0bd"],
 Cell[CellGroupData[{
-Cell[755, 29, 62065, 1531, 5855, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
-Cell[62823, 1562, 421, 7, 34, "Output",ExpressionUUID->"66bdc24b-b2d7-4b69-9883-50fae3524cb2"]
+Cell[755, 29, 66408, 1646, 6170, "Input",ExpressionUUID->"85d114b0-adb3-4fad-af5e-9dc52adefad3"],
+Cell[67166, 1677, 541, 8, 34, "Output",ExpressionUUID->"f0d761b6-70b6-460d-9f5a-d5289219d9b2"]
 }, Open  ]],
-Cell[63259, 1572, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
-Cell[65456, 1640, 1667, 52, 133, "Input",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
+Cell[67722, 1688, 2194, 66, 133, "Input",ExpressionUUID->"7dfd4c26-0350-4450-ad13-17cc4ca26239"],
+Cell[69919, 1756, 1667, 52, 133, "Input",ExpressionUUID->"89a066f0-ba6c-4ec4-9264-d215ce339489"]
 }, Open  ]]
 }
 ]
