@@ -7,8 +7,10 @@ GenerateIndividualResolventLoopEquation::usage="Generate an individual resolvent
 GenerateAllCorrelatorLoopEquations::usage="Generate all correlator loop equations.";
 GenerateIndividualCorrelatorLoopEquation::usage="Generate an individual correlator loop equation.";
 InitializeLoopEquationsPackage::usage="Initialize the package with action, fundamentalMatrix, and maxLevel.";
-GetResolventVariables::usage="Return list of all resolvent variables.";
-GetCorrelatorVariables::usage="Return list of all correlator variables.";
+GetResolventVariables::usage="Return list of resolvent variables for a given level."
+GetCorrelatorVariables::usage="Return list of correlator variables for a given level."
+GetAllResolventVariables::usage="Return list of all resolvent variables.";
+GetAllCorrelatorVariables::usage="Return list of all correlator variables.";
 GetResolventLoopEquationLevel::usage="Get level of an input resolvent loop equation.";
 GetCorrelatorLoopEquationLevel::usage="Get level of an input correlator loop equation.";
 GetVariationList::usage="Get a list of all possible words corresponding to variations.";
@@ -259,13 +261,17 @@ GenerateIndividualCorrelatorLoopEquation[wordList_,matrixNumber_]:=Module[{},
 createCorrelatorLoopEquation[wordList,matrixNumber]
 ];
 
-GetResolventVariables[level_]:=Module[{resolventWordsList},
-resolventWordsList=Flatten[Table[resolventWords[i],{i,1,level}],1];
+GetResolventVariables[level_]:= (List@@(Subscript[\[Omega],#]&/@resolventWords[level]));
+
+GetCorrelatorVariables[level_]:=(List@@(Subscript[p,#]&/@correlatorWords[level]));
+
+GetAllResolventVariables[maxLevel_]:=Module[{resolventWordsList},
+resolventWordsList=Flatten[Table[resolventWords[i],{i,1,maxLevel}],1];
 (List@@(Subscript[\[Omega],#]&/@resolventWordsList))
 ];
 
-GetCorrelatorVariables[level_]:=Module[{correlatorWordsList},
-correlatorWordsList=Flatten[Table[correlatorWords[i],{i,1,level}],1];
+GetAllCorrelatorVariables[maxLevel_]:=Module[{correlatorWordsList},
+correlatorWordsList=Flatten[Table[correlatorWords[i],{i,1,maxLevel}],1];
 (List@@(Subscript[p,#]&/@correlatorWordsList))
 ];
 
