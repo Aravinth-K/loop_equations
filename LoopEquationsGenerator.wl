@@ -13,6 +13,7 @@ GetAllResolventVariables::usage="Return list of all resolvent variables.";
 GetAllCorrelatorVariables::usage="Return list of all correlator variables.";
 GetResolventLoopEquationLevel::usage="Get level of an input resolvent loop equation.";
 GetCorrelatorLoopEquationLevel::usage="Get level of an input correlator loop equation.";
+GetLongestCorrelatorVariable::usage="Get a single correlator variable with the longest index.";
 GetVariationList::usage="Get a list of all possible words corresponding to variations.";
 
 Begin["`Private`"];
@@ -278,6 +279,14 @@ correlatorWordsList=Flatten[Table[correlatorWords[i],{i,1,maxLevel}],1];
 GetResolventLoopEquationLevel[loopEquation_]:=Max[Map[Length,Map[extractIndices[#,\[Omega]]&,List@@Expand[loopEquation]]]];
 
 GetCorrelatorLoopEquationLevel[loopEquation_]:=Max[Map[Length,Map[extractIndices[#,p]&,List@@Expand[loopEquation]]]];
+
+GetLongestCorrelatorVariable[loopEquation_]:=Module[{indices,indexLengths,indexPosition,index},
+indices=Map[extractIndices[#,p]&,List@@Expand[loopEquation]];
+indexLengths=Map[Length,Map[extractIndices[#,p]&,List@@Expand[loopEquation]]];
+indexPosition=First@First@Position[indexLengths,GetCorrelatorLoopEquationLevel[loopEquation]];
+index=Part[indices,indexPosition];
+Subscript[p, index]
+]
 
 GetVariationList[level_]:=getVariationList[level];
 
