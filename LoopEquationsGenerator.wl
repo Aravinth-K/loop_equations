@@ -20,6 +20,7 @@ Begin["`Private`"];
 
 extractIndices[term_,symbol_]:=Module[{factors,mFactors,subs},
 If[AtomQ[term],Return[{}]];
+If[MatchQ[term, Plus[Subscript[symbol, _Integer]]], Return[{Sequence @@ term[[2 ;;]]}]];
 If[term===symbol||Head[term]===Subscript&&term[[1]]===symbol,If[Head[term]===Subscript,Return[Sort[Sequence@@term[[2;;]]]],Return[{}]]];
 factors=List@@term;
 mFactors=Select[factors,!FreeQ[#,Subscript[symbol,_]]&];
